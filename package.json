@@ -1,0 +1,12 @@
+{
+  "name": "n8n-render",
+  "version": "1.0.0",
+  "description": "n8n v2.8.3 on Render with Python support",
+  "main": "index.js",
+  "dependencies": {
+    "n8n": "2.8.3"
+  },
+  "engines": {
+    "node": "18"
+  }
+}
