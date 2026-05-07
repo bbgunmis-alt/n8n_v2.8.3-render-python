@@ -7,10 +7,8 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-COPY package.json ./
-RUN npm install
-
-COPY . .
+# ติดตั้ง n8n โดยตรง
+RUN npm install n8n@2.8.3
 
 EXPOSE 5678
 CMD ["n8n", "start"]
