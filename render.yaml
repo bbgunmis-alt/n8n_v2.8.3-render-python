@@ -2,10 +2,10 @@ services:
   - type: web
     name: n8n-v2.8.3
     env: docker
-    dockerfilePath: ./Dockerfile
+    image: n8nio/n8n:2.8.3
     plan: standard
     port: 5678
-    healthCheckPath: /
+    healthCheckPath: /healthz
     envVars:
       - key: NODE_ENV
         value: production
@@ -16,4 +16,16 @@ services:
       - key: N8N_PROTOCOL
         value: https
       - key: WEBHOOK_URL
-        value: https://n8n-chatbot-6q3s.onrender.com
+        value: https://n8n-chatbot-6q3s.onrender.com/
+      - key: DB_TYPE
+        value: sqlite
+      - key: DB_SQLITE_DATABASE
+        value: /home/node/.n8n/database.sqlite
+      - key: N8N_USER_FOLDER
+        value: /home/node/.n8n
+      - key: GENERIC_TIMEZONE
+        value: Asia/Bangkok
+    disks:
+      - name: n8n-data
+        mountPath: /home/node/.n8n
+        sizeGB: 1
