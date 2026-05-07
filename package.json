@@ -6,8 +6,5 @@
   },
   "engines": {
     "node": "18"
-  },
-  "scripts": {
-    "start": "npx n8n start"
   }
 }
