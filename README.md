@@ -1,36 +1,27 @@
-# 🚀 n8n v2.8.3 with Fixed Python Support for Render.com
+# 🚀 n8n v2.8.3 Render Blueprint
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/api29200/n8n_v2.8.3-render-python)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/bbgunmis-alt/n8n_v2.8.3-render-python)
 
-This repository provides a custom, production-ready Docker image for **n8n v2.8.3** that fixes the "Virtual environment is missing" and "insufficient permissions" errors specifically on Render.com.
+This repository provides a **Render Blueprint (`render.yaml`)** to deploy the official **n8n v2.8.3** Docker image (`n8nio/n8n:2.8.3`) to Render.com with a persistent disk. 
 
-## 🛠️ The Fix (Internal Task Runner)
-The official n8n Docker image for 2.8.3 is missing the Python Task Runner source code, and Render's security policy (`noexec` on `/tmp`) blocks default execution. 
-
-**This repo fixes it by:**
-- **Code Injection:** Cloning the missing `@n8n/task-runner-python` source directly into the image.
-- **Dependency Fix:** Pre-installing `websockets` (missing in original runner) and common ETL libs (`pandas`, `numpy`, `requests`, `beautifulsoup4`).
-- **Permission Bypass:** Redirecting the runner to `/tmp/n8n_runner` with full ownership for the `node` user.
-
-## 📸 Proof it Works
-![Python Node Working](https://raw.githubusercontent.com/api29200/n8n_v2.8.3-render-python/main/screenshot1.png)
-*Success! Python Code Node executing with external libraries on Render.*
+We no longer build a custom Docker image. This blueprint directly deploys the official image, ensuring maximum compatibility and faster deployments.
 
 ## 🚀 One-Click Installation
 1. Click the **Deploy to Render** button above.
 2. Select **Starter** plan (required for Disk persistence).
-3. Set your `WEBHOOK_URL` (the URL Render gives you).
-4. **Done!** Python nodes will work out of the box.
+3. Wait for the deploy to finish and copy your `WEBHOOK_URL` (the URL Render gives you).
+4. Update the `WEBHOOK_URL` environment variable in the Render Dashboard.
+5. **Done!**
 
-## 📦 Pre-installed Python Packages
-- `pandas` & `numpy` (Data Processing)
-- `requests` (API interaction)
-- `beautifulsoup4` (Scraping)
-- `openpyxl` (Excel support)
-- `websockets` (Core requirement)
+## 📂 Repository Contents
+- `render.yaml`: The Render Blueprint configuration that defines the web service, Docker image, environment variables, and persistent disk.
+- `MANUAL_DEPLOY.md`: Step-by-step instructions for manual deployment if the "Deploy to Render" button is not used.
 
-## 🔧 Why use this instead of official image?
-The official image throws an `Attempt to read execution was blocked due to insufficient permissions` error on Render. This happens because the runner fails to start due to missing files in `/usr/local/lib/node_modules/@n8n/`. We've reverse-engineered the path traversal and restored the environment.
+## 📝 Configuration
+The `render.yaml` automatically sets up essential environment variables such as:
+- `N8N_PORT=5678`
+- `DB_TYPE=sqlite`
+- Disk persistence at `/home/node/.n8n` to save your workflows and credentials.
 
 ---
-Created by [api29200](https://github.com/api29200) | Found a bug? Open an issue!
+Created by [api29200](https://github.com/api29200) | Maintained for Render deployment.
